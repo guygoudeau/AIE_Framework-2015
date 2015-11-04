@@ -1,6 +1,13 @@
 #include "GameLoop.h"
+#include "VectorLib.h"
+#include <iostream>
 
+SDL_Keycode key;
+System::Point2D<int> Position = { 800, 450 };
 
+Vectors<int> ThreeD1(2, 3, 4);
+Vectors<int> ThreeD2(5, 6, 7);
+Vectors<int> ThreeDAdd = ThreeD1 + ThreeD2;
 
 void GameLoop::Loop()
 {
@@ -33,11 +40,31 @@ void GameLoop::Loop()
 
 void GameLoop::Update()
 {
+	switch (key)
+	{
+	case SDLK_UP:
+		Position.Y -= 7;
+		break;
+	
+	case SDLK_DOWN:
+		Position.Y += 7;
+		break;
 
+	case SDLK_LEFT:
+		Position.X -= 7;
+		break;
+	
+	case SDLK_RIGHT:
+		Position.X += 7;
+		break;
+	case SDLK_p:
+		std::cout << "(" << ThreeDAdd.x << "," << ThreeDAdd.y << "," << ThreeDAdd.z << ")";
+		break;
+	}
 }
 void GameLoop::LateUpdate()
 {
-
+	key = KMOD_NONE;
 }
 
 void GameLoop::Draw()
@@ -45,14 +72,8 @@ void GameLoop::Draw()
 	// Objects are drawn in a painter's layer fashion meaning the first object drawn is on the bottom, and the last one drawn is on the top
 	// just like a painter would paint onto a canvas
 
-	Graphics::DrawRect({ 400, 400 }, { 450, 400 }, { 160, 65, 255, 255 });
-	Graphics::DrawRect({ 250, 500 }, { 1000, 200 }, { 0, 255, 0, 255 });
-
-	Graphics::DrawLine({ 10, 10 }, { 100, 100 }, { 255, 255, 255, 255 });
-	Graphics::DrawPoint({ 5, 5 }, { 255, 255, 255, 255 });
-
-	Graphics::DrawRing({ 140, 140 }, 50, 25, { 50, 0, 200, 255 });
-	Graphics::DrawCircle({ 800, 450 }, 200, 50, { 0, 255, 255, 150 });
+	Graphics::DrawRect({ 200, 200 }, {50, 50}, {250, 250, 250, 255});
+	Graphics::DrawCircle(Position, 200, 50, { 50, 250, 50, 255 });
 }
 
 void GameLoop::OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode)
@@ -62,7 +83,9 @@ void GameLoop::OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, con
 	{
 	case SDLK_ESCAPE: m_bRunning = false; break; // End the loop
 
-	default: printf("%s\n",SDL_GetKeyName(ac_sdlSym)); break;
+	default: printf("%s\n",SDL_GetKeyName(ac_sdlSym));
+		key = ac_sdlSym;
+		break;
 	}
 }
 void GameLoop::OnKeyUp(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode)
