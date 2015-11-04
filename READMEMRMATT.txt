@@ -1,0 +1,1 @@
+To test and make sure the math libarary is included, press the 'p' key which will add two 3d vectors.
