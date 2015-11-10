@@ -24,6 +24,7 @@ class GameLoop : private EventHandler
 {
 private:
 	bool m_bRunning; // If this is true, the game loop will continue to run
+	Graphics::GLSurface<int>*Crunch;
 
 public:
 	// The game loop
@@ -36,6 +37,8 @@ public:
 
 	// An update-like function that gets called directly after 'LateUpdate'
 	void Draw();
+
+	void DrawGraph(); /// Draws the graph!
 
 	// Gets called automatically by 'EventHandler' when a key is pressed
 	void OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);
